@@ -66,8 +66,8 @@ public class PrimaryController implements Initializable {
                             //A Faire : On positionne l'image du Pacman dans la map
                             map[x][y] = imgPacman;
                             //A Faire : on stocke la position du Pacman
-                            pPacman.x = x ;
-                            pPacman.y = y ;
+                            pPacman.x = x;
+                            pPacman.y = y;
                             break;
                         case ' ':
                             //A Faire : On positionne l'image du vide dans la map
@@ -87,19 +87,43 @@ public class PrimaryController implements Initializable {
         switch (event.getCode()) {
             case UP:
                 //A Faire : on deplace le Pacman vers le haut si c'est possible
-                map[pPacman.x][pPacman.y-1] = imgPacman ;
-                map[pPacman.x][pPacman.y] = imgVide ;
-                gc.drawImage(imgPacman, pPacman.x*Config.IMAGELARGEUR, (pPacman.y-1)*Config.IMAGEHAUTEUR,Config.IMAGELARGEUR ,Config.IMAGEHAUTEUR);
-                pPacman.y = pPacman.y -1 ;
+                //Si la case au dessus contient du vide alors, je peux me deplacer
+                if (map[pPacman.x][pPacman.y - 1] == imgVide && pPacman.y > 0) {
+                    map[pPacman.x][pPacman.y - 1] = imgPacman;
+                    map[pPacman.x][pPacman.y] = imgVide;
+                    gc.drawImage(imgPacman, pPacman.x * Config.IMAGELARGEUR, (pPacman.y - 1) * Config.IMAGEHAUTEUR,
+                            Config.IMAGELARGEUR, Config.IMAGEHAUTEUR);
+                    gc.drawImage(imgVide, pPacman.x * Config.IMAGELARGEUR, (pPacman.y) * Config.IMAGEHAUTEUR, 
+                            Config.IMAGELARGEUR, Config.IMAGEHAUTEUR);
+                    pPacman.y = pPacman.y - 1;
+                }
                 break;
             case DOWN:
-                //A Faire : on deplace le Pacman vers le bas si c'est possible
+                if (map[pPacman.x][pPacman.y + 1] == imgVide && pPacman.y < Config.HAUTEUR - 1) {
+                    map[pPacman.x][pPacman.y + 1] = imgPacman;
+                    map[pPacman.x][pPacman.y] = imgVide;
+                    gc.drawImage(imgPacman, pPacman.x * Config.IMAGELARGEUR, (pPacman.y + 1) * Config.IMAGEHAUTEUR, Config.IMAGELARGEUR, Config.IMAGEHAUTEUR);
+                    gc.drawImage(imgVide, pPacman.x * Config.IMAGELARGEUR, (pPacman.y) * Config.IMAGEHAUTEUR, Config.IMAGELARGEUR, Config.IMAGEHAUTEUR);
+                    pPacman.y = pPacman.y + 1;
+                }
                 break;
             case LEFT:
-                //A Faire : on deplace le Pacman vers la gauche si c'est possible
+                if (map[pPacman.x - 1][pPacman.y] == imgVide && pPacman.x > 0) {
+                    map[pPacman.x - 1][pPacman.y] = imgPacman;
+                    map[pPacman.x][pPacman.y] = imgVide;
+                    gc.drawImage(imgPacman, (pPacman.x - 1) * Config.IMAGELARGEUR, (pPacman.y) * Config.IMAGEHAUTEUR, Config.IMAGELARGEUR, Config.IMAGEHAUTEUR);
+                    gc.drawImage(imgVide, pPacman.x * Config.IMAGELARGEUR, (pPacman.y) * Config.IMAGEHAUTEUR, Config.IMAGELARGEUR, Config.IMAGEHAUTEUR);
+                    pPacman.x = pPacman.x - 1;
+                }
                 break;
             case RIGHT:
-                //A Faire : on deplace le Pacman vers la droite si c'est possible
+                if (map[pPacman.x + 1][pPacman.y] == imgVide && pPacman.x < Config.HAUTEUR - 1) {
+                    map[pPacman.x + 1][pPacman.y] = imgPacman;
+                    map[pPacman.x][pPacman.y] = imgVide;
+                    gc.drawImage(imgPacman, (pPacman.x + 1) * Config.IMAGELARGEUR, (pPacman.y) * Config.IMAGEHAUTEUR, Config.IMAGELARGEUR, Config.IMAGEHAUTEUR);
+                    gc.drawImage(imgVide, pPacman.x * Config.IMAGELARGEUR, (pPacman.y) * Config.IMAGEHAUTEUR, Config.IMAGELARGEUR, Config.IMAGEHAUTEUR);
+                    pPacman.x = pPacman.x + 1;
+                }
                 break;
         }
         //A Faire : On redessine les images qui ont changé (gauche ou droite ou haut ou bas.
@@ -108,11 +132,11 @@ public class PrimaryController implements Initializable {
     private void printMap() {//A Faire
         GraphicsContext gc = canvas.getGraphicsContext2D();
         //A Faire : on dessine les 800 images de la map sur le canvas (gc)
-        for( int y=0 ; y<40 ; y ++ ){
-            for( int x=0 ; x<40 ; x++ ){
-                Image imageADessiner = map[x][y] ;
-                gc.drawImage(imageADessiner, x*Config.IMAGELARGEUR, y*Config.IMAGEHAUTEUR,Config.IMAGELARGEUR , Config.IMAGEHAUTEUR);
-                
+        for (int y = 0; y < 40; y++) {
+            for (int x = 0; x < 40; x++) {
+                Image imageADessiner = map[x][y];
+                gc.drawImage(imageADessiner, x * Config.IMAGELARGEUR, y * Config.IMAGEHAUTEUR, Config.IMAGELARGEUR, Config.IMAGEHAUTEUR);
+
             }
         }
     }
